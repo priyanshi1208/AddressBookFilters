@@ -12,4 +12,7 @@ public interface IPersonService {
 
     boolean equals(List<Person> addressbook);
 
+    void showCityData(String city);
+
+    void showStateData(String state);
 }
