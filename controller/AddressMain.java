@@ -1,5 +1,6 @@
 package com.addresbook.controller;
 
+
 import java.util.Scanner;
 
 public class AddressMain {
@@ -10,7 +11,9 @@ public class AddressMain {
     public static void main(String[] args) {
 
         AddressMain addressBookMain = new AddressMain();
-        while (true) addressBookMain.addressBookCRUD();
+        while (true) {
+            addressBookMain.addressBookCRUD();
+        }
     }
     public void addressBookCRUD() {
         abort = false;
@@ -50,6 +53,11 @@ public class AddressMain {
             case 4:
                 this.personController.editPerson();
                 break;
+            case 5:
+                this.personController.showCityStateData();
+                break;
+//            case 6:
+//                this.personService.showByCity();
 
             default:
                 break;
@@ -57,11 +65,11 @@ public class AddressMain {
     }
     public int personInputs() {
         System.out.println(
-                "1.Add Person \n" +
-                        "2.Show Persons \n" +
-                        "3.close AddressBook \n"+
-                        "4. edit person\n"+
-                        "5.Show person cityVise"
+                "1.Add Person in currrent addressbook \n" +
+                        "2.Show Person detail in current addressbook \n" +
+                        "3.Close current AddressBook \n"+
+                        "4.Edit person details\n"+
+                        "5.Show person city/state vise\n"
         );
         return scanner.nextInt();
     }
@@ -69,9 +77,9 @@ public class AddressMain {
 
     public int bookInputs() {
         System.out.println(
-                "1.Create AddressBook \n" +
-                        "2.Get All AddressBook \n" +
-                        "3.Open AddressBook \n"
+                "1.Create a new AddressBook \n" +
+                        "2.show All AddressBook \n" +
+                        "3.Open a specified AddressBook \n"
         );
         return scanner.nextInt();
     }

@@ -1,5 +1,4 @@
 package com.addresbook.controller;
-import com.addresbook.entity.AddressBook;
 import com.addresbook.entity.Person;
 import com.addresbook.services.AddressBookService;
 import com.addresbook.services.IPersonService;
@@ -21,6 +20,7 @@ public class PersonController {
         String lastName = scanner.next();
         System.out.println("Enter Person City \n");
         String city = scanner.next();
+
         System.out.println("Enter Person State \n");
         String state = scanner.next();
         System.out.println("Enter Person Email \n");
@@ -46,6 +46,24 @@ public class PersonController {
     }
     public void deletePerson(){
 
+    }
+    public void showCityStateData(){
+        System.out.println("Choose if you want to Select 1:City-Wise,  2:State-Wise");
+        int selection=scanner.nextInt();
+        switch(selection){
+            case 1:{
+                System.out.println("Enter name of the city");
+                String city=scanner.next();
+                personService.showCityData(city);
+                break;
+            }
+            case 2:{
+                System.out.println("Enter name of the state");
+                String state=scanner.next();
+                personService.showStateData(state);
+                break;
+            }
+        }
     }
     public void getAllPersons() {
         List<Person> allPersons = this.personService.getAllPersons();
