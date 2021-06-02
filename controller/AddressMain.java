@@ -1,6 +1,9 @@
 package com.addresbook.controller;
 
 
+import com.addresbook.services.PersonService;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AddressMain {
@@ -8,6 +11,8 @@ public class AddressMain {
     private Scanner scanner = new Scanner(System.in);
     PersonController personController=new PersonController();
     AddressBookController bookController=new AddressBookController();
+    PersonService personService=new PersonService();
+
     public static void main(String[] args) {
 
         AddressMain addressBookMain = new AddressMain();
@@ -56,9 +61,12 @@ public class AddressMain {
             case 5:
                 this.personController.showCityStateData();
                 break;
-//            case 6:
-//                this.personService.showByCity();
-
+            case 6:
+                this.personService.nameSort();
+                break;
+            case 7:
+                this.personController.sort();
+                break;
             default:
                 break;
         }
@@ -69,7 +77,9 @@ public class AddressMain {
                         "2.Show Person detail in current addressbook \n" +
                         "3.Close current AddressBook \n"+
                         "4.Edit person details\n"+
-                        "5.Show person city/state vise\n"
+                        "5.Show person city/state vise\n"+
+                        "6.Sort By Name\n"+
+                        "7.Sort Person by city/state/zip"
         );
         return scanner.nextInt();
     }

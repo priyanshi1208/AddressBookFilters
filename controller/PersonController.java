@@ -65,6 +65,14 @@ public class PersonController {
             }
         }
     }
+    public void sort(){
+        System.out.println("Select the way to sort the details\n"+
+                "1.City\n"+
+                "2.State\n"+
+                "3.Zip");
+        String option=scanner.next();
+        personService.sort(option);
+    }
     public void getAllPersons() {
         List<Person> allPersons = this.personService.getAllPersons();
         System.out.println(allPersons);
