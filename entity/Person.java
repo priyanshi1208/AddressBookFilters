@@ -62,8 +62,9 @@ public class Person {
     }
 
     @Override
-    public String toString() {
-        return String.format(first_name+" "+last_name+" "+city+" "+state+" "+email+" "+zip+" "+phone_number);
+    public  String toString() {
+        System.out.println("FirstName :  LastName  : City :  State :  Zip   :    Email     :    PhoneNumber");
+        return String.format(first_name+" : "+last_name+" : "+city+" : "+state+" : "+email+" : "+zip+" : "+phone_number);
     }
 
     public Person(String first_name, String last_name, String city, String state, String email, String zip, String phone_number) {
