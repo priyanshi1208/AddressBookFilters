@@ -2,6 +2,7 @@ package com.addresbook.services;
 
 import com.addresbook.entity.Person;
 
+import java.util.Comparator;
 import java.util.List;
 
 public interface IPersonService {
@@ -13,6 +14,9 @@ public interface IPersonService {
     boolean equals(List<Person> addressbook);
 
     void showCityData(String city);
+    void nameSort();
 
     void showStateData(String state);
+
+    void sort(String option);
 }

@@ -1,10 +1,12 @@
 package com.addresbook.services;
 
 import com.addresbook.controller.PersonController;
+import com.addresbook.entity.AddressBook;
 import com.addresbook.entity.Person;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import static com.addresbook.services.AddressBookService.allAddressbook;
 
@@ -78,33 +80,55 @@ public class PersonService implements IPersonService {
     }
     @Override
     public void showCityData(String city){
-        AtomicInteger count= new AtomicInteger();
         System.out.println("Records in city "+city+":");
-           allAddressbook.values().forEach(a-> a.addressbook.forEach(p->{
-              if( p.getCity().equals(city)) {
-                   count.getAndIncrement();
-                  System.out.println(count+":"+p);
-                  System.out.println();
-              }
-           }));
-           int i=count.get();
-           if(i==0)
-               System.out.println("There is no such city in addressbook");
-        System.out.println("There are "+count+" Records of city "+city);
+        long count = 0;
+        for (AddressBook a : allAddressbook.values()) {
+             count=a.addressbook.stream().filter(Person -> Person.getCity().equalsIgnoreCase(city)).count();
+            a.addressbook.stream().filter(Person->Person.getCity().equalsIgnoreCase(city)).forEach(System.out::println);
+        }
+        System.out.println("There Are "+count+" Records in the addressbook");
     }
 
     @Override
     public void showStateData(String state){
-        AtomicInteger count=new AtomicInteger();
         System.out.println("Records in city "+state+":");
-            allAddressbook.values().forEach(a-> a.addressbook.forEach(p->{
-                if( p.getState().equals(state)) {
-                    count.getAndIncrement();
-                    System.out.println(count+":"+p);
-                    System.out.println();
-
+        long count = 0;
+        for (AddressBook a : allAddressbook.values()) {
+            count=a.addressbook.stream().filter(Person -> Person.getCity().equalsIgnoreCase(state)).count();
+            a.addressbook.stream().filter(Person->Person.getState().equalsIgnoreCase(state)).forEach(System.out::println);
+        }
+        System.out.println("There Are "+count+" Records in the addressbook");
+    }
+    public void sorting(Comparator<Person> compare){
+        for(AddressBook a:allAddressbook.values()){
+            a.addressbook.stream().sorted(compare).collect(Collectors.toList()).forEach(System.out::println);
+            //a.addressbook.forEach(System.out::println);
+        }
+    }
+    @Override
+    public void nameSort(){
+            Comparator<Person> compareName=Comparator.comparing(Person::getFirst_name);
+            sorting(compareName);
+    }
+    @Override
+    public void sort(String options){
+            switch(options) {
+                case "1": {
+                    Comparator<Person> compareCity=Comparator.comparing(Person::getCity).thenComparing(Person::getFirst_name);
+                    sorting(compareCity);
+                    break;
                 }
-            }));
+                case "2":{
+                    Comparator<Person> compareState=Comparator.comparing(Person::getState).thenComparing(Person::getFirst_name);
+                    sorting(compareState);
+                    break;
+                }
+                case "3":{
+                    Comparator<Person> compareZip=Comparator.comparing(Person::getZip).thenComparing(Person::getFirst_name);
+                    sorting(compareZip);
+                    break;
+                }
+            }
     }
 
     @Override
