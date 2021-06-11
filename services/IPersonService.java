@@ -11,7 +11,7 @@ public interface IPersonService {
     void editPerson(String personName,int columnNumber,String editedDetails);
     boolean deletePerson(Person person);
     List<Person> getAllPersons();
-
+    void readFromFile(int options, String filename) throws IOException;
     boolean equals(List<Person> addressbook);
 
     void showCityData(String city);

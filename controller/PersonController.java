@@ -9,7 +9,7 @@ public class PersonController {
     public static String firstname;
     Scanner scanner=new Scanner(System.in);
     IPersonService personService=new PersonService();
-    IReadWriteOperations readWriteOperations=new ReadWriteOperations();
+    ReadWriteOperations readWriteOperations=new ReadWriteOperations();
     public void addPerson() {
         String activeBook=AddressBookService.activeAddressBook;
         do{
@@ -76,7 +76,8 @@ public class PersonController {
     public void getAllPersons() throws IOException {
         System.out.println("Choose where to print Person data\n "+
                 "1.Console\n"+
-                "2.File\n");
+                "2.File\n"+
+                "3.CSV");
         int option=scanner.nextInt();
         OutputType outputType;
         switch(option){
@@ -93,6 +94,15 @@ public class PersonController {
                 break;
             }
         }
+    }
+    public void readFromFile() throws IOException {
+        System.out.println("Choose from where to read Person data\n "+
+                "1.TextFile\n"+
+                "2.\n");
+        int options = scanner.nextInt();
+        System.out.println("Enter the file name you want to read data from");
+        String filename=scanner.next();
+        personService.readFromFile(options,filename);
     }
 
 }

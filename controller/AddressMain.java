@@ -1,13 +1,10 @@
 package com.addresbook.controller;
 
 
-import com.addresbook.services.IReadWriteOperations;
-import com.addresbook.services.OutputType;
 import com.addresbook.services.PersonService;
 import com.addresbook.services.ReadWriteOperations;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AddressMain {
@@ -16,7 +13,7 @@ public class AddressMain {
     PersonController personController=new PersonController();
     AddressBookController bookController=new AddressBookController();
     PersonService personService=new PersonService();
-    IReadWriteOperations readWriteOpeartions=new ReadWriteOperations();
+    ReadWriteOperations readWriteOpeartions=new ReadWriteOperations();
 
     public static void main(String[] args) throws IOException {
 
@@ -72,6 +69,8 @@ public class AddressMain {
             case 7:
                 this.personController.sort();
                 break;
+            case 8:
+                this.personController.readFromFile();
             default:
                 break;
         }
@@ -85,7 +84,7 @@ public class AddressMain {
                         "5.Show person city/state vise\n"+
                         "6.Sort By Name\n"+
                         "7.Sort Person by city/state/zip\n"+
-                        "8.Print Addressbook into a File\n"
+                        "8.Read data from file and print in console"
         );
         return scanner.nextInt();
     }

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 import static com.addresbook.services.AddressBookService.allAddressbook;
 
 public class PersonService implements IPersonService {
-
+    ReadWriteOperations readWriteOperations=new ReadWriteOperations();
 
     @Override
     public boolean addPerson(Person person) {
@@ -138,12 +138,46 @@ public class PersonService implements IPersonService {
             }
         }
     }
-
-
-
     @Override
     public List<Person> getAllPersons() {
         String activeBook = AddressBookService.activeAddressBook;
         return allAddressbook.get(activeBook).addressbook;
+    }
+    public void writeToFile(int options,String filename)throws IOException{
+        OutputType outputType;
+        switch(options){
+            case 1: {
+                outputType=OutputType.ConsoleInputOutput;
+                getAllPersons();
+                break;
+            }
+            case 2:{
+                outputType=OutputType.FileInputOutput;
+                readWriteOperations.printAddressbookIntoFile(filename,outputType);
+                break;
+            }
+            case 3:{
+                outputType=OutputType.CSVInputOutput;
+                readWriteOperations.printAddressbookIntoFile(filename,outputType);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void readFromFile(int options, String filename) throws IOException {
+        OutputType outputType;
+        switch (options){
+            case 1: {
+                outputType = OutputType.FileInputOutput;
+                readWriteOperations.ReadFile(filename, outputType);
+                break;
+            }
+            case 2: {
+                outputType = OutputType.CSVInputOutput;
+                readWriteOperations.ReadFile(filename, outputType);
+                break;
+            }
+        }
     }
 }
