@@ -1,15 +1,15 @@
 package com.addresbook.controller;
 import com.addresbook.entity.Person;
-import com.addresbook.services.AddressBookService;
-import com.addresbook.services.IPersonService;
-import com.addresbook.services.PersonService;
+import com.addresbook.services.*;
 
+import java.io.IOException;
 import java.util.*;
 public class PersonController {
 
     public static String firstname;
     Scanner scanner=new Scanner(System.in);
     IPersonService personService=new PersonService();
+    IReadWriteOperations readWriteOperations=new ReadWriteOperations();
     public void addPerson() {
         String activeBook=AddressBookService.activeAddressBook;
         do{
@@ -73,8 +73,26 @@ public class PersonController {
         String option=scanner.next();
         personService.sort(option);
     }
-    public void getAllPersons() {
-        List<Person> allPersons = this.personService.getAllPersons();
-        System.out.println(allPersons);
+    public void getAllPersons() throws IOException {
+        System.out.println("Choose where to print Person data\n "+
+                "1.Console\n"+
+                "2.File\n");
+        int option=scanner.nextInt();
+        OutputType outputType;
+        switch(option){
+            case 1: {
+                outputType=OutputType.ConsoleInputOutput;
+                personService.getAllPersons();
+                break;
+            }
+            case 2:{
+                outputType=OutputType.FileInputOutput;
+                System.out.println("Enter the file name you want to create and enter data");
+                String filename=scanner.next();
+                readWriteOperations.printAddressbookIntoFile(filename,outputType);
+                break;
+            }
+        }
     }
+
 }
