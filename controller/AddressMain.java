@@ -1,19 +1,14 @@
 package com.addresbook.controller;
-
-
 import com.addresbook.services.PersonService;
-import com.addresbook.services.ReadWriteOperations;
-
 import java.io.IOException;
 import java.util.Scanner;
 
 public class AddressMain {
     public static boolean abort = false;
-    private Scanner scanner = new Scanner(System.in);
+    Scanner scanner = new Scanner(System.in);
     PersonController personController=new PersonController();
     AddressBookController bookController=new AddressBookController();
     PersonService personService=new PersonService();
-    ReadWriteOperations readWriteOpeartions=new ReadWriteOperations();
 
     public static void main(String[] args) throws IOException {
 
@@ -34,10 +29,11 @@ public class AddressMain {
                 this.bookController.getAllAddressBook();
                 break;
 
-            case 3:
+            case 3:{
                 if (this.bookController.openAddressBook()) {
                     while (!abort) this.personCRUD();
-                }
+                }break;
+            }
             default:
                 break;
         }
@@ -53,10 +49,12 @@ public class AddressMain {
                 this.personController.getAllPersons();
                 break;
 
-            case 3:
+            case 3: {
                 this.bookController.closeAddressBook();
                 abort = true;
                 this.addressBookCRUD();
+                break;
+            }
             case 4:
                 this.personController.editPerson();
                 break;

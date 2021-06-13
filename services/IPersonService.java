@@ -13,7 +13,7 @@ public interface IPersonService {
     List<Person> getAllPersons();
     void readFromFile(int options, String filename) throws IOException;
     boolean equals(List<Person> addressbook);
-
+    void writeToFile(int options,String filename)throws IOException;
     void showCityData(String city);
     void nameSort();
 

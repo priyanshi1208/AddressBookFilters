@@ -1,5 +1,5 @@
 package com.addresbook.services;
 
 public enum OutputType {
-    FileInputOutput,ConsoleInputOutput,CSVInputOutput;
+    FileInputOutput,ConsoleInputOutput,CSVInputOutput,JsonInputOutput;
 }

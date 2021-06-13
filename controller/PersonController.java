@@ -78,22 +78,10 @@ public class PersonController {
                 "1.Console\n"+
                 "2.File\n"+
                 "3.CSV");
-        int option=scanner.nextInt();
-        OutputType outputType;
-        switch(option){
-            case 1: {
-                outputType=OutputType.ConsoleInputOutput;
-                personService.getAllPersons();
-                break;
-            }
-            case 2:{
-                outputType=OutputType.FileInputOutput;
-                System.out.println("Enter the file name you want to create and enter data");
-                String filename=scanner.next();
-                readWriteOperations.printAddressbookIntoFile(filename,outputType);
-                break;
-            }
-        }
+        int options = scanner.nextInt();
+        System.out.println("Enter the file name you want to read data from");
+        String filename=scanner.next();
+        personService.writeToFile(options,filename);
     }
     public void readFromFile() throws IOException {
         System.out.println("Choose from where to read Person data\n "+
