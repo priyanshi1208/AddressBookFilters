@@ -148,7 +148,6 @@ public class PersonService implements IPersonService {
         OutputType outputType;
         switch(options){
             case 1: {
-                outputType=OutputType.ConsoleInputOutput;
                 getAllPersons();
                 break;
             }
@@ -159,6 +158,11 @@ public class PersonService implements IPersonService {
             }
             case 3:{
                 outputType=OutputType.CSVInputOutput;
+                readWriteOperations.printAddressbookIntoFile(filename, outputType);
+                break;
+            }
+            case 4:{
+                outputType=OutputType.JsonInputOutput;
                 readWriteOperations.printAddressbookIntoFile(filename,outputType);
                 break;
             }
@@ -178,6 +182,10 @@ public class PersonService implements IPersonService {
                 outputType = OutputType.CSVInputOutput;
                 readWriteOperations.ReadFile(filename, outputType);
                 break;
+            }
+            case 3:{
+                outputType=OutputType.JsonInputOutput;
+                readWriteOperations.ReadFile(filename,outputType);
             }
         }
     }

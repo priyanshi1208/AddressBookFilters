@@ -77,7 +77,8 @@ public class PersonController {
         System.out.println("Choose where to print Person data\n "+
                 "1.Console\n"+
                 "2.File\n"+
-                "3.CSV");
+                "3.CSV\n"+
+                "4.Json");
         int options = scanner.nextInt();
         System.out.println("Enter the file name you want to read data from");
         String filename=scanner.next();
@@ -86,7 +87,8 @@ public class PersonController {
     public void readFromFile() throws IOException {
         System.out.println("Choose from where to read Person data\n "+
                 "1.TextFile\n"+
-                "2.\n");
+                "2.CSV\n"+
+                "3.Json");
         int options = scanner.nextInt();
         System.out.println("Enter the file name you want to read data from");
         String filename=scanner.next();
