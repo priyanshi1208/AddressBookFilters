@@ -13,6 +13,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,19 +27,19 @@ public class ReadWriteOperations {
     Path fileLocation = Paths.get("C:\\Users\\ayuanshi\\Documents\\AddressBooks");
 
 
-    public void printAddressbookIntoFile(String filename,OutputType outputType) throws IOException {
+    public void printAddressbookIntoFile(String filename,OutputType outputType,List<Person> addressbook) throws IOException {
         if(outputType.equals(OutputType.FileInputOutput))
-           printInTextFile(filename);
+           printInTextFile(filename,addressbook);
         if(outputType.equals(OutputType.CSVInputOutput))
-            printInCsvFile(filename);
+            printInCsvFile(filename,addressbook);
         if(outputType.equals(OutputType.JsonInputOutput))
-            printInJsonFile(filename);
+            printInJsonFile(filename,addressbook);
     }
-    public void printInTextFile(String filename) throws IOException {
-        Path file = Files.createFile(Path.of(fileLocation + "/" +filename+ ".txt"));
+    public void printInTextFile(String filename,List<Person> addressbook) throws IOException {
+        try {
+            Path file = Files.createFile(Path.of(fileLocation + "/" + filename + ".txt"));
         StringBuffer buffer = new StringBuffer();
-        String activeBook = AddressBookService.activeAddressBook;
-        allAddressbook.get(activeBook).addressbook.forEach(Person -> {
+        addressbook.forEach(Person -> {
             String person = Person.toString().concat("\n");
             buffer.append(person);
             try {
@@ -46,34 +47,40 @@ public class ReadWriteOperations {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        });
+        });}catch(FileAlreadyExistsException f){
+            f.printStackTrace();
+        }
         System.out.println("There are "+CountEntries(filename)+" entries in the addressbook");
     }
-    public void printInCsvFile(String filename) throws IOException {
-        Path csvfile = Files.createFile(Path.of(fileLocation + "/" +filename+ ".csv"));
-        BufferedWriter writer = Files.newBufferedWriter(csvfile);
-        StatefulBeanToCsv<Person> beanToCsv = new StatefulBeanToCsvBuilder<Person>(writer)
-                .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER).build();
-        String activeBook=AddressBookService.activeAddressBook;
-        List<Person> personlist = allAddressbook.get(activeBook).addressbook;
-        personlist.forEach(System.out::println);
+    public void printInCsvFile(String filename,List<Person> addressbook) throws IOException {
+        try {
+            Path csvfile = Files.createFile(Path.of(fileLocation + "/" + filename + ".csv"));
+            BufferedWriter writer = Files.newBufferedWriter(csvfile);
+            StatefulBeanToCsv<Person> beanToCsv = new StatefulBeanToCsvBuilder<Person>(writer)
+                    .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER).build();
+            addressbook.forEach(System.out::println);
             try {
-                beanToCsv.write(personlist);
+                beanToCsv.write(addressbook);
             } catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e) {
                 e.printStackTrace();
             }
+        }catch(FileAlreadyExistsException f){
+            f.printStackTrace();
+        }
         System.out.println("File created");
     }
-    public void printInJsonFile(String filename)throws IOException{
-        Path JsonFile=Files.createFile(Path.of(fileLocation + "/" + filename + ".json"));
-        Gson gson=new Gson();
-        FileWriter writer = new FileWriter(String.valueOf(JsonFile));
-        String activeBook=AddressBookService.activeAddressBook;
-        List<Person> personlist = allAddressbook.get(activeBook).addressbook;
-        String json = gson.toJson(personlist);
-        writer.write(json);
-        writer.close();
-
+    public void printInJsonFile(String filename,List<Person> addressbook)throws IOException{
+        try {
+            Path JsonFile = Files.createFile(Path.of(fileLocation + "/" + filename + ".json"));
+            Gson gson = new Gson();
+            FileWriter writer = new FileWriter(String.valueOf(JsonFile));
+            String json = gson.toJson(addressbook);
+            writer.write(json);
+            writer.close();
+        }catch (FileAlreadyExistsException f){
+            f.printStackTrace();
+        }
+        System.out.println("File created");
     }
     public  void ReadFile(String filename,OutputType outputType) throws IOException {
         if(outputType.equals(OutputType.FileInputOutput))
@@ -112,23 +119,13 @@ public class ReadWriteOperations {
         }
     }
     public void ReadFromJsonFile(String filename) throws IOException{
-        Path JsonFile=Files.createFile(Path.of(fileLocation + "/" + filename + ".json"));
         Gson gson=new Gson();
         Person[] people;
-        try (BufferedReader reader = Files.newBufferedReader(JsonFile)) {
+        try (BufferedReader reader = Files.newBufferedReader(Path.of(fileLocation + "/" + filename + ".json"))) {
             people = gson.fromJson(reader, Person[].class);
         }
         List<Person> personList = Arrays.asList(people);
-        for(Person person:personList){
-            System.out.println(person.getFirst_name());
-            System.out.println(person.getLast_name());
-            System.out.println(person.getCity());
-            System.out.println(person.getState());
-            System.out.println(person.getEmail());
-            System.out.println(person.getZip());
-            System.out.println(person.getPhone_number());
-            System.out.println();
-        }
+        personList.forEach(System.out::println);
 
     }
     public long CountEntries(String filename) {

@@ -138,32 +138,32 @@ public class PersonService implements IPersonService {
             }
         }
     }
-    @Override
-    public List<Person> getAllPersons() {
-        String activeBook = AddressBookService.activeAddressBook;
-        return allAddressbook.get(activeBook).addressbook;
+    public List<Person> getAllPersons(List<Person> addressbook) {
+        return addressbook;
     }
     @Override
     public void writeToFile(int options,String filename)throws IOException{
+        String activeBook = AddressBookService.activeAddressBook;
+        List<Person> addressbook = allAddressbook.get(activeBook).addressbook;
         OutputType outputType;
         switch(options){
             case 1: {
-                getAllPersons();
+                getAllPersons(addressbook);
                 break;
             }
             case 2:{
                 outputType=OutputType.FileInputOutput;
-                readWriteOperations.printAddressbookIntoFile(filename,outputType);
+                readWriteOperations.printAddressbookIntoFile(filename,outputType,addressbook);
                 break;
             }
             case 3:{
                 outputType=OutputType.CSVInputOutput;
-                readWriteOperations.printAddressbookIntoFile(filename, outputType);
+                readWriteOperations.printAddressbookIntoFile(filename, outputType,addressbook);
                 break;
             }
             case 4:{
                 outputType=OutputType.JsonInputOutput;
-                readWriteOperations.printAddressbookIntoFile(filename,outputType);
+                readWriteOperations.printAddressbookIntoFile(filename,outputType,addressbook);
                 break;
             }
         }
