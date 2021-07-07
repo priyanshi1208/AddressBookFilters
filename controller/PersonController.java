@@ -9,7 +9,7 @@ public class PersonController {
     public static String firstname;
     Scanner scanner=new Scanner(System.in);
     IPersonService personService=new PersonService();
-    ReadWriteOperations readWriteOperations=new ReadWriteOperations();
+    PersonServiceDb personServiceDb=new PersonServiceDb();
     public void addPerson() {
         String activeBook=AddressBookService.activeAddressBook;
         do{
@@ -20,7 +20,6 @@ public class PersonController {
         String lastName = scanner.next();
         System.out.println("Enter Person City \n");
         String city = scanner.next();
-
         System.out.println("Enter Person State \n");
         String state = scanner.next();
         System.out.println("Enter Person Email \n");
@@ -29,20 +28,23 @@ public class PersonController {
         String zip = scanner.next();
         System.out.println("Enter Person Phone Number \n");
         String phoneNumber = scanner.next();
-
         Person person = new Person(firstname,lastName, city, state,email,zip,phoneNumber);
         this.personService.addPerson(person);
+        this.personServiceDb.addPersonDb(person,activeBook);
     }
     public void editPerson(){
         System.out.println("Enter Name of the person to edit details");
         String personName=scanner.next();
         System.out.println("Enter Column number you want to edit");
-        System.out.println("1:Firstname, 2:LatName, 3:City, 4:State, 5:Zip, 6:Phone-Number");
+        System.out.println("1:Firstname, 2:LatName, 3:City, 4:State, 5:Email, 6:Zip, 7:Phone-Number");
         int columnNumber=scanner.nextInt();
+        System.out.println("Write corresponding column name");
+        String columnName=scanner.next();
         System.out.println("Enter new detail");
         String editedDetail=scanner.next();
         PersonService personService=new PersonService();
         personService.editPerson(personName, columnNumber,editedDetail);
+        personServiceDb.editPersonDb(personName,columnName,editedDetail);
     }
     public void deletePerson(){
 
@@ -55,6 +57,7 @@ public class PersonController {
                 System.out.println("Enter name of the city");
                 String city=scanner.next();
                 personService.showCityData(city);
+                personServiceDb.showCityDataDb(city);
                 break;
             }
             case 2:{
